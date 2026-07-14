@@ -1,0 +1,85 @@
+// styles/ServicesSection.module.scss
+
+.section {
+    padding: 80px 0;
+background: var(--light-surface-container-lowest);
+    @media (max-width: 600px) {
+      padding: 24px 0;
+      min-height: auto;
+
+    }
+  
+    .container {
+      .titleWrapper {
+        // max-width: 800px;
+        grid-template-columns: 550px 700px;
+        @media(max-width: 1366px){ 
+          grid-template-columns: 550px 1fr;
+        }
+        @media(max-width: 950px){ 
+          grid-template-columns: 1fr;
+          gap: 16px; 
+        }
+      }
+  
+     
+    }
+    .cardsWrapper {
+   @media(max-width: 1450px){ 
+        margin-left: 16px; 
+      }
+      @media(max-width: 950px){ 
+        margin-top: 16px !important;
+        margin-left: 16px; 
+      }
+      
+      .section-cta {
+        button {
+          width: 100%;
+          background: var(--dark-primary);
+          color: var(--dark-on-primary);
+          padding: 12px 0;
+          border-radius: 50px;
+          font-size: 1.1rem;
+        }
+      }
+
+      .card {
+      
+      background: var(--light-surface-container-low); 
+        border-radius: 16px;
+        overflow: hidden;
+        .imageWrapper {
+       
+          .image{ 
+            
+          }
+        }
+
+        .contentWrapper {
+          padding: 8px 16px; 
+    
+          .subtitle {
+            margin: 0 0 8px 0;
+          }
+
+          .title {
+          
+          
+          }
+          .description{ 
+            p { 
+              font-weight: 400 !important; 
+
+            }
+          }
+
+          .cta {
+            margin-top: 16px;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+  

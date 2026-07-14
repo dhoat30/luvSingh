@@ -1,0 +1,44 @@
+.section { 
+    background: var(--dark-surface-container-lowest);
+padding-bottom: 40px; 
+@media (max-width:1000px) {
+  padding-bottom: 0; 
+}
+.sliderWrapper{ 
+  height: 500px;
+ margin: 0 16px; 
+ @media (max-width:1080px) {
+  display: none !important;
+ }
+}
+
+}
+
+.bubble{ 
+    
+      position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6200ea 30%, #a061ff 90%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+}

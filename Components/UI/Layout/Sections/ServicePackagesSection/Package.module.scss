@@ -1,0 +1,32 @@
+.wrapper{ 
+    padding: 24px 16px; 
+   background: var(--light-surface-container-low);
+  border: 1px solid var(--light-outline-variant);
+  flex: 1 1 350px;
+@media(max-width: 1200px) { 
+      flex: 0 1 400px;
+    //   max-width: 450px; 
+}
+@media(max-width: 910px) { 
+      flex:1 1 auto;
+    //   max-width: 450px; 
+}
+  .content { 
+    .description{ 
+    }
+    .items{ 
+        .item{ 
+            grid-template-columns: 16px 1fr;
+            svg{ 
+                position: relative; 
+                top: 4px; 
+            }
+        }
+    }
+  }
+}
+.dark{ 
+  background: linear-gradient(172deg, #2123DA 0.02%, #6D01A4 100.56%);
+  border: 3px solid #9408db;
+  
+}

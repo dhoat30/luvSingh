@@ -1,0 +1,39 @@
+/* ClientLogoCarousel.module.scss */
+
+.section {}
+
+.viewport {
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.slide {
+  flex: 0 0 25%;
+  min-width: 0;
+  padding: 0 10px;
+
+  @media (min-width: 600px) {
+    flex: 0 0 20%;
+  }
+
+  @media (min-width: 900px) {
+    flex: 0 0 calc(100% / 9); /* <-- 9 logos visible */
+  }
+}
+
+.logoLink {
+  display: block;
+}
+
+.logoWrap {
+  position: relative;
+  width: 100%;
+}
+
+.logoImg {
+  object-fit: contain;
+}

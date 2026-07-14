@@ -1,0 +1,27 @@
+.section{ 
+ 
+    padding: 24px 0;
+  
+ .cardsWrapper {
+    margin-top: 24px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    .card {
+      /* display: flex; */
+      /* align-items: center; */
+      gap: 16px;
+      border: 1px solid var(--dark-outline-variant);
+      padding: 16px;
+      background: var(--dark-surface-container-low); 
+      .title {
+        margin: 0;
+      }
+      .image {
+        background: linear-gradient(36deg, #6400ed 0%, #f000ff 100%);
+        border-radius: 50%;
+      }
+    }
+  }
+
+}

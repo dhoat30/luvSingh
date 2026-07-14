@@ -1,0 +1,41 @@
+
+.section { 
+      padding: 24px;
+  .priceWrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    .frequency {
+      position: relative;
+      bottom: 2px;
+    }
+  }
+  .button {
+    width: 100%;
+    margin: 16px auto;
+  }
+  > .accordionWrapper {
+    margin-top: 8px;
+ 
+    .MuiAccordionSummary-content {
+      margin: 8px 0;
+    }
+   div {
+      padding-top: 0;
+      ul {
+        list-style: disc !important;
+        padding-left: 24px;
+      }
+      ol {
+        margin: 0;
+        padding-left: 24px;
+        li {
+          padding: 8px 0;
+        }
+      }
+      a {
+        color: var(--dark-secondary);
+      }
+    }
+  }
+}

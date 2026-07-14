@@ -1,0 +1,26 @@
+.section{ 
+      .summaryWrapper {
+    .card {
+      padding: 8px;
+      margin-top: 16px;
+      .link {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 16px;
+        align-items: center;
+        @media(max-width: 450px){ 
+          grid-template-columns: 1fr;
+        }
+        .imageWrapper {
+       
+          padding-bottom: 56.25%;
+        }
+      }
+    }
+    .totalWrapper {
+      margin-top: 16px;
+      padding-top: 8px;
+      border-top: 1px solid var(--dark-outline-variant);
+    }
+  }
+}

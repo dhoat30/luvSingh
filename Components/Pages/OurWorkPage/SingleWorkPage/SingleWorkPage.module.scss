@@ -1,0 +1,182 @@
+
+.singleWorkPage{ 
+  grid-template-columns: repeat(12, 1fr);
+
+  align-items: start;
+
+  .contentWrapper {
+    grid-column: 1 / span 8;
+    .beforeAfterGallery{ 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+     @media (max-width: 600px){ 
+      grid-template-columns: 1fr; 
+    
+     }
+    }
+  }
+  .resultsWrapper {
+    grid-column: 9 / span 4;
+    border-left: 1px solid #47464f;
+  
+    z-index: 10;
+  }
+  @media (max-width: 1080px) {
+    display: block;
+
+    .resultsWrapper {
+      border-left: none;
+    }
+  }
+}
+
+
+.projectResultSection{ 
+     .title {
+    border-bottom: 1px solid var(--dark-outline-variant);
+    padding: 0 0 24px 80px;
+  }
+  .result {
+    padding: 0 0 16px 80px;
+  }
+  @media (max-width: 1080px) {
+    .title {
+      padding: 0 0 24px 0;
+    }
+    .resultWrapper{
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 0;
+      column-gap: 40px;
+    }
+    .result {
+      padding: 0 0 16px 0;
+    }
+  }
+}
+
+.projectTitleSection{
+     margin: 80px auto;
+  @media (max-width: 600px) {
+    margin: 40px 0;
+  }
+
+}
+
+// single project content section 
+.singleProjectContentSection{ 
+      padding: 24px 0 56px 0;
+
+  @media (max-width: 1080px) {
+    padding: 24 0 56px 0;
+  }
+  @media (max-width: 600px) {
+    padding: 24px 0 16px 0;
+  }
+  scroll-margin-top: 70px; /* slightly more than the navbar height */
+  .subSection {
+    margin: 24px 0 40px 0;
+  }
+  p {
+    margin-top: 8px;
+    font-weight: 350;
+    letter-spacing: 0.01rem;
+    font-family: var(--font-work-sans), "Segoe UI", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+  }
+  strong {
+    font-weight: 600;
+  }
+  img{ 
+    object-fit: cover;
+    width: 100%;
+    margin-top: 16px;
+    height: auto; 
+  }
+
+  .wp-video{ 
+    margin-top: 8px;
+  }
+  .wp-video, video{ 
+    width: 100% !important;
+   
+  }
+  ol, ul{ 
+    font-weight: 350;
+    letter-spacing: 0.01rem;
+    color: white;
+
+    li {
+      margin: 16px 0 16px 32px;
+      line-height: 1.5;
+      letter-spacing: 0.01rem;
+      @media(max-width: 450px){
+        margin: 16px 0 16px 24px;
+
+      } 
+      strong {
+      color: white;
+    
+    }
+    }
+    
+  }
+ 
+  ul {
+    list-style: disc !important;
+   
+   
+  }
+  h2 {
+    @media (max-width: 370px) {
+      font-size: 2.5rem;
+    }
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h6 {
+    color: white;
+    font-size: 1.2rem;
+    margin: 16px 0;
+  }
+}
+
+.sitelink{ 
+
+  flex-wrap: wrap;
+  .link {
+    position: relative;
+    svg {
+      position: absolute;
+      top: 2px;
+    }
+  }
+}
+
+.techStack{ 
+      .title {
+    border-bottom: 1px solid var(--dark-outline-variant);
+    padding: 0 0 24px 80px;
+  }
+
+  .techLogoWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-top: 32px;
+    padding: 0 0 16px 80px;
+  }
+
+  @media (max-width: 1080px) {
+    .title {
+      padding: 0 0 24px 0;
+    }
+
+    .tech-logo-wrapper {
+      padding: 0 0 16px 0;
+    }
+  }
+}

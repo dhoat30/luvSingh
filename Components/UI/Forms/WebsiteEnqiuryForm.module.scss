@@ -1,0 +1,46 @@
+.section {
+    padding: 0 !important; 
+
+.mobileStepper{ 
+    background: none; 
+    padding:0;
+
+}
+.buttonWrapper{ 
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; 
+    gap: 8px; 
+}
+
+@media(max-width: 500px){ 
+    .stepperWrapper{ 
+    display: none ;
+}
+}
+
+.inputWrapper{ 
+        padding: 0 24px 24px 24px; 
+    background: var(--light--surface-container);
+border-radius: 12px; 
+    @media(max-width: 600px){ 
+        padding: 0 16px 24px 16px; 
+
+    }
+   
+}
+.quoteWrapper{ 
+    background: var(--light--surface-container);
+    border-radius: 12px; 
+    max-width: 500px; 
+    margin: 40px auto 0 auto;   
+  
+    .quote{ 
+        max-width: 300px;
+        margin: 16px auto; 
+        padding: 16px 0; 
+        border: dashed 2px var(--light-primary, #f9f871);
+    }
+}
+}

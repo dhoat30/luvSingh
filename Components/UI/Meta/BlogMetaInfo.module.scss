@@ -1,0 +1,32 @@
+.section{ 
+     display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 16px;
+
+  border-bottom: 1px solid var(--light-outline-variant);
+  .profilePicWrapper {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    img {
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+  .textWrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    flex-wrap: wrap;
+
+    .metaAuthorName {
+    }
+    .divider {
+      @media (max-width: 370px) {
+        display: none;
+      }
+    }
+  }
+}

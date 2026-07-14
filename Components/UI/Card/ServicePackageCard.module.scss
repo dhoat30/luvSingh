@@ -1,0 +1,54 @@
+.section{ 
+      transition: transform 0.3s;
+  border-radius: 12px;
+  overflow: hidden;
+  &:hover {
+    transform: scale(1.01);
+  }
+  .linkWrapper {
+    grid-template-columns: repeat(12, 1fr);
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    height: 500px;
+    @media (max-width: 1150px) {
+      display: block;
+      height: auto;
+    }
+    .imageWrapper {
+      grid-column: span 7;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      @media (max-width: 1150px) {
+        padding-bottom: 56.25%;
+        height: auto;
+      }
+      img {
+        overflow: hidden;
+        object-fit: cover;
+      }
+    }
+    .contentWrapper {
+      padding: 32px;
+      grid-column: span 5;
+      @media (max-width: 600px) {
+        padding: 16px;
+      }
+      .description {
+        margin-top: 8px;
+        margin-bottom: 24px;
+        @media (max-width: 600px) {
+          margin-bottom: 8px;
+        }
+      }
+      .button {
+        margin-top: 24px;
+        @media (max-width: 600px) {
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}

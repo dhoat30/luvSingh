@@ -1,0 +1,56 @@
+.section{ 
+   padding: 0 !important;
+
+ 
+ 
+  
+
+
+  .inputWrapper {
+    padding: 24px 24px 24px 24px;
+    background: var(--light--surface-container);
+    border-radius: 12px;
+    @media (max-width: 600px) {
+      padding: 24px 16px;
+    }
+ 
+
+  }
+ 
+}
+.totalPriceSection{ 
+    background: var(--dark-primary-container);
+  position: fixed;
+  top: 60px;
+  left: 0;
+  z-index: 1000;
+  padding: 8px 0;
+  width: 100%;
+  @media (max-width: 1200px) {
+    top: 64px;
+  }
+  @media (max-width: 600px) {
+    top: 56px;
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    .content {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      .title,
+      .price {
+        color: var(--dark-on-surface);
+      }
+      .gst {
+        position: relative;
+        top: 4px;
+      }
+    }
+   
+  }
+}

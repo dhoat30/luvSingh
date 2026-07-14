@@ -1,0 +1,108 @@
+:root {
+   /* Color styles — Luv Singh
+     Seed: neon green #5FD500 (logo)
+     Same Material 3 token structure as before, regenerated for this brand */
+  --material-theme--white: rgba(255, 255, 255, 1);
+  --material-theme--black: rgba(0, 0, 0, 1);
+  --light-primary: rgba(53, 115, 0, 1);
+  --light-on-primary: rgba(255, 255, 255, 1);
+  --light-primary-container: rgba(176, 245, 129, 1);
+  --light-on-primary-container: rgba(12, 32, 0, 1);
+  --light-primary-fixed: rgba(176, 245, 129, 1);
+  --light-on-primary-fixed: rgba(12, 32, 0, 1);
+  --light-primary-fixed-dim: rgba(95, 213, 0, 1);
+  --light-on-primary-fixed-variant: rgba(39, 88, 0, 1);
+  --light-secondary: rgba(87, 98, 74, 1);
+  --light-on-secondary: rgba(255, 255, 255, 1);
+  --light-secondary-container: rgba(219, 231, 200, 1);
+  --light-on-secondary-container: rgba(21, 30, 11, 1);
+  --light-secondary-fixed: rgba(219, 231, 200, 1);
+  --light-on-secondary-fixed: rgba(21, 30, 11, 1);
+  --light-secondary-fixed-dim: rgba(191, 203, 169, 1);
+  --light-on-secondary-fixed-variant: rgba(64, 74, 52, 1);
+  --light-tertiary: rgba(56, 102, 104, 1);
+  --light-on-tertiary: rgba(255, 255, 255, 1);
+  --light-tertiary-container: rgba(188, 235, 238, 1);
+  --light-on-tertiary-container: rgba(0, 32, 34, 1);
+  --light-tertiary-fixed: rgba(188, 235, 238, 1);
+  --light-on-tertiary-fixed: rgba(0, 32, 34, 1);
+  --light-tertiary-fixed-dim: rgba(160, 207, 210, 1);
+  --light-on-tertiary-fixed-variant: rgba(30, 77, 80, 1);
+  --light-error: rgba(186, 26, 26, 1);
+  --light-on-error: rgba(255, 255, 255, 1);
+  --light-error-container: rgba(255, 218, 214, 1);
+  --light-on-error-container: rgba(65, 0, 2, 1);
+  --light-outline: rgba(117, 121, 107, 1);
+  --light-background: rgba(249, 250, 239, 1);
+  --light-on-background: rgba(27, 28, 21, 1);
+  --light-surface: rgba(249, 250, 239, 1);
+  --light-on-surface: rgba(27, 28, 21, 1);
+  --light-surface-variant: rgba(225, 228, 211, 1);
+  --light-on-surface-variant: rgba(68, 72, 60, 1);
+  --light-inverse-surface: rgba(48, 49, 40, 1);
+  --light-inverse-on-surface: rgba(241, 241, 231, 1);
+  --light-inverse-primary: rgba(95, 213, 0, 1);
+  --light-shadow: rgba(0, 0, 0, 1);
+  --light-surface-tint: rgba(53, 115, 0, 1);
+  --light-outline-variant: #C5C8B8;
+  --light-scrim: rgba(0, 0, 0, 1);
+  --light-surface-container-highest: #E2E3D8;
+  --light-surface-container-high: #E8E9DE;
+  --light-surface-container: #EDEEE3;
+  --light-surface-container-low: #F3F4E9;
+  --light-surface-container-lowest: rgba(255, 255, 255, 1);
+  --light-surface-bright: rgba(249, 250, 239, 1);
+  --light-surface-dim: rgba(218, 219, 208, 1);
+ 
+ 
+  --dark-primary: rgba(95, 213, 0, 1);            /* brand neon green, exact logo color */
+  --dark-on-primary: rgba(26, 62, 0, 1);
+  --dark-primary-container: rgba(39, 88, 0, 1);
+  --dark-on-primary-container: rgba(176, 245, 129, 1);
+  --dark-primary-fixed: rgba(176, 245, 129, 1);
+  --dark-on-primary-fixed: rgba(12, 32, 0, 1);
+  --dark-primary-fixed-dim: rgba(95, 213, 0, 1);
+  --dark-on-primary-fixed-variant: rgba(39, 88, 0, 1);
+  --dark-secondary: #BFCBA9;
+  --dark-on-secondary: rgba(42, 51, 31, 1);
+  --dark-secondary-container: rgba(64, 74, 52, 1);
+  --dark-on-secondary-container: rgba(219, 231, 200, 1);
+  --dark-secondary-fixed: rgba(219, 231, 200, 1);
+  --dark-on-secondary-fixed: rgba(21, 30, 11, 1);
+  --dark-secondary-fixed-dim: rgba(191, 203, 169, 1);
+  --dark-on-secondary-fixed-variant: rgba(64, 74, 52, 1);
+  --dark-tertiary: rgba(160, 207, 210, 1);
+  --dark-on-tertiary: rgba(0, 55, 57, 1);
+  --dark-tertiary-container: rgba(30, 77, 80, 1);
+  --dark-on-tertiary-container: rgba(188, 235, 238, 1);
+  --dark-tertiary-fixed: rgba(188, 235, 238, 1);
+  --dark-on-tertiary-fixed: rgba(0, 32, 34, 1);
+  --dark-tertiary-fixed-dim: rgba(160, 207, 210, 1);
+  --dark-on-tertiary-fixed-variant: rgba(30, 77, 80, 1);
+  --dark-error: rgba(255, 180, 171, 1);
+  --dark-on-error: rgba(105, 0, 5, 1);
+  --dark-error-container: rgba(147, 0, 10, 1);
+  --dark-on-error-container: rgba(255, 218, 214, 1);
+  --dark-outline: rgba(143, 146, 133, 1);
+  --dark-background: rgba(18, 20, 12, 1);
+  --dark-on-background: rgba(227, 228, 216, 1);
+  --dark-surface: rgba(18, 20, 12, 1);
+  --dark-on-surface: rgb(255, 255, 255);
+  --dark-surface-variant: #44483C;
+  --dark-on-surface-variant: rgba(197, 200, 184, 1);
+  --dark-inverse-surface: rgba(227, 228, 216, 1);
+  --dark-inverse-on-surface: rgba(48, 49, 40, 1);
+  --dark-inverse-primary: rgba(53, 115, 0, 1);
+  --dark-shadow: rgba(0, 0, 0, 1);
+  --dark-surface-tint: rgba(95, 213, 0, 1);
+  --dark-outline-variant: rgba(68, 72, 60, 1);
+  --dark-scrim: rgba(0, 0, 0, 1);
+  --dark-surface-container-highest: #33362B;
+  --dark-surface-container-high: #292B21;
+  --dark-surface-container: #1E2118;
+  --dark-surface-container-low: #1A1C14;
+  --dark-surface-container-lowest: #0D0F07;
+  --dark-surface-bright: rgba(56, 58, 48, 1);
+  --dark-surface-dim: rgba(18, 20, 12, 1);
+
+}

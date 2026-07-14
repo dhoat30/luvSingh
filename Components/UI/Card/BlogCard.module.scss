@@ -1,0 +1,64 @@
+.section{ 
+      overflow: hidden;
+      border-radius: 12px !important;
+      background: var(--dark-surface-container-low) ; 
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+ 
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  .metaInfoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px 0 24px;
+    @media (max-width: 450px) {
+      padding: 16px 16px 0 16px;
+    }
+    .profilePicWrapper {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      img {
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    .textWrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      position: relative;
+      flex-wrap: wrap;
+
+  
+      .divider {
+        @media (max-width: 370px) {
+          display: none;
+        }
+      }
+    }
+  }
+  .contentWrapper{
+    padding: 16px 24px 24px 24px;
+    @media (max-width: 450px) {
+      padding: 16px 16px 24px 16px;
+    }
+ 
+    .description {
+      margin-top: 16px;
+    }
+    .button-wrapper {
+      margin-top: 24px;
+    }
+  }
+}

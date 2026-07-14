@@ -1,0 +1,17 @@
+.section {
+    padding: 8px 8px 8px 8px;
+    overflow: hidden !important;
+    background: var(--light-surface-container-lowest);
+
+    .titleContainer {
+    
+
+      
+
+    }
+    .packagesContainer{ 
+        @media(max-width: 600px){ 
+    gap: 16px; 
+}
+    }
+}
