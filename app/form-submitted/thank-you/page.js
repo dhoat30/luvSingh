@@ -2,6 +2,7 @@ export const revalidate = 2592000; // applies to both page and metadata
 
 import Header from '@/Components/UI/Header/Header';
 import ThankYou from '@/Components/UI/ThankYou/ThankYou';
+import Footer from '@/Components/UI/Footer/Footer';
 
 export const metadata = {
     metadataBase: new URL('https://webduel.co.nz'),
@@ -28,6 +29,7 @@ export default async function Page() {
             <main>
                 <ThankYou />
             </main>
+            <Footer showFooterCta={false} />
         </>
 
     )

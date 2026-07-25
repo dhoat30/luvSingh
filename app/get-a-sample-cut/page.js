@@ -6,7 +6,7 @@ import { getOptions } from "@/utils/fetchData";
 export const metadata = {
   title: "Get a Free Sample Cut | Luv Singh",
   description:
-    "Share your video brief and raw footage with Luv Singh to request a free sample edit.",
+    "Tell Luv Singh about your video and request a free sample edit.",
 };
 
 export default async function GetASampleCutPage() {

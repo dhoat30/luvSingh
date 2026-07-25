@@ -1,30 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider } from "@mui/material/styles";
-import LanguageIcon from "@mui/icons-material/Language";
-import { matchIsValidTel, MuiTelInput } from "mui-tel-input";
 import { theme } from "@/utils/themeSettings";
 import styles from "./SampleCutPage.module.scss";
 
 const initialFormData = {
-  videoType: "",
-  goal: "",
-  footageLink: "",
-  referenceLink: "",
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
-  phone: "",
+  videoType: "",
+  videoLink: "",
+  message: "",
 };
-
-const stepTitles = [
-  "What are we making?",
-  "Where is the footage?",
-  "How can I reach you?",
-];
 
 const isValidUrl = (value) => {
   try {
@@ -36,8 +27,7 @@ const isValidUrl = (value) => {
 };
 
 export default function SampleCutPage() {
-  const stepChangedAt = useRef(0);
-  const [step, setStep] = useState(0);
+  const router = useRouter();
   const [formData, setFormData] = useState(initialFormData);
   const [fieldErrors, setFieldErrors] = useState({});
   const [submissionState, setSubmissionState] = useState("idle");
@@ -49,326 +39,241 @@ export default function SampleCutPage() {
     setFieldErrors((current) => ({ ...current, [name]: "" }));
   };
 
-  const handlePhoneChange = (value) => {
-    setFormData((current) => ({ ...current, phone: value }));
-    setFieldErrors((current) => ({ ...current, phone: "" }));
-  };
-
-  const validateStep = (stepToValidate) => {
+  const validateForm = () => {
     const errors = {};
 
-    if (stepToValidate === 0 && !formData.videoType) {
+    if (!formData.firstName.trim()) {
+      errors.firstName = "Enter your first name.";
+    }
+
+    if (!formData.lastName.trim()) {
+      errors.lastName = "Enter your last name.";
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "Enter your email address.";
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      errors.email = "Enter a valid email address.";
+    }
+
+    if (!formData.videoType) {
       errors.videoType = "Select a video type.";
     }
 
-    if (stepToValidate === 1) {
-      if (formData.footageLink && !isValidUrl(formData.footageLink)) {
-        errors.footageLink = "Enter a valid link beginning with http or https.";
-      }
-
-      if (formData.referenceLink && !isValidUrl(formData.referenceLink)) {
-        errors.referenceLink = "Enter a valid link beginning with http or https.";
-      }
-    }
-
-    if (stepToValidate === 2) {
-      if (!formData.name.trim()) errors.name = "Enter your name.";
-
-      if (!formData.email.trim()) {
-        errors.email = "Enter your email address.";
-      } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-        errors.email = "Enter a valid email address.";
-      }
-
-      if (!formData.phone) {
-        errors.phone = "Enter your phone number.";
-      } else if (!matchIsValidTel(formData.phone)) {
-        errors.phone = "Enter a valid international phone number.";
-      }
+    if (
+      formData.videoLink.trim() &&
+      !isValidUrl(formData.videoLink.trim())
+    ) {
+      errors.videoLink = "Enter a valid link beginning with http or https.";
     }
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleNext = () => {
-    if (!validateStep(step)) return;
-    setFieldErrors({});
-    stepChangedAt.current = Date.now();
-    setStep((current) => Math.min(current + 1, stepTitles.length - 1));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (Date.now() - stepChangedAt.current < 500) return;
-    if (!validateStep(2)) return;
+    if (!validateForm()) return;
 
     setSubmissionState("submitting");
     setErrorMessage("");
 
-    const message = [
-      `Name: ${formData.name}`,
-      `Email: ${formData.email}`,
-      `Video type: ${formData.videoType}`,
-      `Project message: ${formData.goal || "Not provided"}`,
-      `Footage link: ${formData.footageLink || "Not provided"}`,
-      `Reference link: ${formData.referenceLink || "Not provided"}`,
-      `Phone: ${formData.phone}`,
-    ].join("\n\n");
-
     try {
-      const response = await fetch("/api/sendmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          message,
-          formName: "New Sample Cut Request",
-        }),
-      });
-      const result = await response.json();
+      const firstName = formData.firstName.trim();
+      const lastName = formData.lastName.trim();
+      const email = formData.email.trim();
+      const videoType = formData.videoType;
+      const videoLink = formData.videoLink.trim();
+      const message = formData.message.trim();
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "The request could not be sent.");
+      const [emailResponse, hubspotResponse] = await Promise.all([
+        fetch("/api/sendmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            formType: "sample-cut",
+            firstName,
+            lastName,
+            email,
+            videoType,
+            videoLink,
+            message,
+            formName: "New Sample Cut Request",
+          }),
+        }),
+        fetch("/api/submit-hubspot-form", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            hubspotFormID:
+              process.env.NEXT_PUBLIC_HUBSPOT_DETAIL_ENQUIRY_FORM,
+            hubspotFormObject: [
+              { name: "firstname", value: firstName },
+              { name: "lastname", value: lastName },
+              { name: "email", value: email },
+              {
+                name: "message",
+                value: [
+                  `Video type: ${videoType}`,
+                  videoLink ? `Video link: ${videoLink}` : null,
+                  message ? `Message: ${message}` : null,
+                ]
+                  .filter(Boolean)
+                  .join("\n\n"),
+              },
+            ],
+          }),
+        }),
+      ]);
+      const [emailResult, hubspotResult] = await Promise.all([
+        emailResponse.json(),
+        hubspotResponse.json(),
+      ]);
+
+      if (!emailResponse.ok || !emailResult.success) {
+        throw new Error(emailResult.message || "The emails could not be sent.");
       }
 
-      setSubmissionState("success");
+      if (!hubspotResponse.ok || !hubspotResult.success) {
+        throw new Error(
+          hubspotResult.message || "The enquiry could not be saved.",
+        );
+      }
+
       setFormData(initialFormData);
+      router.push("/form-submitted/thank-you");
     } catch (error) {
       setSubmissionState("error");
       setErrorMessage(
-        error.message || "Something went wrong. Please try again in a moment."
+        error.message || "Something went wrong. Please try again in a moment.",
       );
     }
   };
-
-  if (submissionState === "success") {
-    return (
-      <section className={styles.section}>
-        <div className={`${styles.container} ${styles.successContainer}`}>
-          <div className={styles.successMark} aria-hidden="true" />
-          <p className={styles.eyebrow}>Request received</p>
-          <h1>Your footage is in.</h1>
-          <p>
-            I will review your brief and links, then reply by email with the next
-            step.
-          </p>
-          <Link href="/" className={styles.homeLink}>
-            Back to home
-          </Link>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <section className={styles.section}>
         <div className={styles.container}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>Free sample cut</p>
-          <h1>Show me the footage. I will show you the potential.</h1>
-          <p className={styles.introCopy}>
-            Share a quick brief and a viewable link to your footage. No long
-            questionnaire and no complicated upload process.
-          </p>
-        </div>
-
-        <div className={styles.formPanel}>
-          <div className={styles.progressHeader}>
-            <span>
-              Step {step + 1} of {stepTitles.length}
-            </span>
-            <div
-              className={styles.progress}
-              role="progressbar"
-              aria-label="Form progress"
-              aria-valuemin="1"
-              aria-valuemax={stepTitles.length}
-              aria-valuenow={step + 1}
-            >
-              {stepTitles.map((_, index) => (
-                <span
-                  className={index <= step ? styles.complete : ""}
-                  key={index}
-                />
-              ))}
-            </div>
+          <div className={styles.intro}>
+            <p className={styles.eyebrow}>Free sample cut</p>
+            <h1>Show me the vision. I will show you the potential.</h1>
+            <p className={styles.introCopy}>
+              Tell me what you are creating and what the edit needs to achieve.
+              Six quick fields, then I will take it from there.
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate>
-            <h2>{stepTitles[step]}</h2>
+          <div className={styles.formPanel}>
+            <form onSubmit={handleSubmit} noValidate>
+              <h2>Tell me about your video</h2>
+              <p className={styles.formDescription}>
+                Share the essentials and I will get back to you by email.
+              </p>
 
-            <div className={styles.fields}>
-              {step === 0 && (
-                <>
+              <div className={styles.fields}>
+                <div className={styles.nameFields}>
                   <TextField
                     className={styles.muiField}
-                    id="videoType"
-                    name="videoType"
-                    label="Video type"
-                    select
-                    value={formData.videoType}
+                    id="firstName"
+                    name="firstName"
+                    label="First name"
+                    autoComplete="given-name"
+                    value={formData.firstName}
                     onChange={handleChange}
                     required
-                    error={Boolean(fieldErrors.videoType)}
-                    helperText={fieldErrors.videoType}
-                    fullWidth
-                  >
-                    <MenuItem value="UGC ad">UGC ad</MenuItem>
-                    <MenuItem value="Video sales letter">
-                      Video sales letter
-                    </MenuItem>
-                    <MenuItem value="Explainer or product promo">
-                      Explainer or product promo
-                    </MenuItem>
-                    <MenuItem value="YouTube or podcast">
-                      YouTube or podcast
-                    </MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                  </TextField>
-                  <TextField
-                    className={styles.muiField}
-                    id="goal"
-                    name="goal"
-                    label="Project message (optional)"
-                    value={formData.goal}
-                    onChange={handleChange}
-                    placeholder="For example: improve retention, explain the offer, or drive clicks."
-                    multiline
-                    minRows={4}
-                    fullWidth
-                  />
-                </>
-              )}
-
-              {step === 1 && (
-                <>
-                  <TextField
-                    className={styles.muiField}
-                    id="footageLink"
-                    name="footageLink"
-                    label="Footage link (optional)"
-                    type="url"
-                    value={formData.footageLink}
-                    onChange={handleChange}
-                    placeholder="https://"
-                    error={Boolean(fieldErrors.footageLink)}
-                    helperText={
-                      fieldErrors.footageLink ||
-                      "Use a viewable Google Drive, Dropbox, Frame.io, or WeTransfer link."
-                    }
-                    slotProps={{ htmlInput: { inputMode: "url" } }}
+                    error={Boolean(fieldErrors.firstName)}
+                    helperText={fieldErrors.firstName}
                     fullWidth
                   />
                   <TextField
                     className={styles.muiField}
-                    id="referenceLink"
-                    name="referenceLink"
-                    label="Reference video (optional)"
-                    type="url"
-                    value={formData.referenceLink}
-                    onChange={handleChange}
-                    placeholder="https://"
-                    slotProps={{ htmlInput: { inputMode: "url" } }}
-                    error={Boolean(fieldErrors.referenceLink)}
-                    helperText={fieldErrors.referenceLink}
-                    fullWidth
-                  />
-                </>
-              )}
-
-              {step === 2 && (
-                <>
-                  <TextField
-                    className={styles.muiField}
-                    id="name"
-                    name="name"
-                    label="Name"
-                    type="text"
-                    autoComplete="name"
-                    value={formData.name}
+                    id="lastName"
+                    name="lastName"
+                    label="Last name"
+                    autoComplete="family-name"
+                    value={formData.lastName}
                     onChange={handleChange}
                     required
-                    error={Boolean(fieldErrors.name)}
-                    helperText={fieldErrors.name}
+                    error={Boolean(fieldErrors.lastName)}
+                    helperText={fieldErrors.lastName}
                     fullWidth
                   />
-                  <TextField
-                    className={styles.muiField}
-                    id="email"
-                    name="email"
-                    label="Email"
-                    type="email"
-                    autoComplete="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    error={Boolean(fieldErrors.email)}
-                    helperText={fieldErrors.email}
-                    fullWidth
-                  />
-                  <MuiTelInput
-                    className={styles.muiField}
-                    id="phone"
-                    name="phone"
-                    label="Phone number"
-                    autoComplete="tel"
-                    value={formData.phone}
-                    onChange={handlePhoneChange}
-                    focusOnSelectCountry
-                    FlagIconButtonProps={{
-                      "aria-label": "Choose country code",
-                    }}
-                    unknownFlagElement={
-                      <LanguageIcon
-                        className={styles.countryPlaceholder}
-                        fontSize="small"
-                      />
-                    }
-                    getFlagElement={(isoCode, { countryName }) => (
-                      <span
-                        className={styles.countryIso}
-                        aria-label={countryName}
-                      >
-                        {isoCode}
-                      </span>
-                    )}
-                    required
-                    error={Boolean(fieldErrors.phone)}
-                    helperText={fieldErrors.phone}
-                    fullWidth
-                  />
-                </>
-              )}
-            </div>
+                </div>
 
-            <div className={styles.actions}>
-              {step > 0 && (
-                <button
-                  key="continue"
-                  type="button"
-                  className={styles.backButton}
-                  onClick={() => {
-                    setFieldErrors({});
-                    setStep((current) => current - 1);
-                  }}
-                  disabled={submissionState === "submitting"}
+                <TextField
+                  className={styles.muiField}
+                  id="email"
+                  name="email"
+                  label="Email address"
+                  type="email"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  error={Boolean(fieldErrors.email)}
+                  helperText={fieldErrors.email}
+                  fullWidth
+                />
+
+                <TextField
+                  className={styles.muiField}
+                  id="videoType"
+                  name="videoType"
+                  label="Video type"
+                  select
+                  value={formData.videoType}
+                  onChange={handleChange}
+                  required
+                  error={Boolean(fieldErrors.videoType)}
+                  helperText={fieldErrors.videoType}
+                  fullWidth
                 >
-                  Back
-                </button>
-              )}
-              {step < stepTitles.length - 1 ? (
+                  <MenuItem value="UGC ad">UGC ad</MenuItem>
+                  <MenuItem value="Video sales letter">Video sales letter</MenuItem>
+                  <MenuItem value="Explainer or product promo">
+                    Explainer or product promo
+                  </MenuItem>
+                  <MenuItem value="YouTube or podcast">
+                    YouTube or podcast
+                  </MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </TextField>
+
+                <TextField
+                  className={styles.muiField}
+                  id="videoLink"
+                  name="videoLink"
+                  label="Video link"
+                  type="url"
+                  value={formData.videoLink}
+                  onChange={handleChange}
+                  placeholder="https://"
+                  error={Boolean(fieldErrors.videoLink)}
+                  helperText={
+                    fieldErrors.videoLink ||
+                    "Optional — Google Drive, Dropbox, Frame.io, YouTube, or another viewable link."
+                  }
+                  slotProps={{ htmlInput: { inputMode: "url" } }}
+                  fullWidth
+                />
+
+                <TextField
+                  className={styles.muiField}
+                  id="message"
+                  name="message"
+                  label="Message (optional)"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell me about the video, your goal, and anything important I should know."
+                  multiline
+                  minRows={5}
+                  slotProps={{ htmlInput: { maxLength: 5000 } }}
+                  fullWidth
+                />
+              </div>
+
+              <div className={styles.actions}>
                 <button
-                  type="button"
-                  className={styles.primaryButton}
-                  onClick={handleNext}
-                >
-                  Continue
-                </button>
-              ) : (
-                <button
-                  key="submit"
                   type="submit"
                   className={styles.primaryButton}
                   disabled={submissionState === "submitting"}
@@ -377,16 +282,15 @@ export default function SampleCutPage() {
                     ? "Sending..."
                     : "Send My Brief"}
                 </button>
-              )}
-            </div>
+              </div>
 
-            {submissionState === "error" && (
-              <p className={styles.error} role="alert">
-                {errorMessage}
-              </p>
-            )}
-          </form>
-        </div>
+              {submissionState === "error" && (
+                <p className={styles.error} role="alert">
+                  {errorMessage}
+                </p>
+              )}
+            </form>
+          </div>
         </div>
       </section>
     </ThemeProvider>

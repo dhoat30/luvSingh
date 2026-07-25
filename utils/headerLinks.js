@@ -46,6 +46,10 @@ export const headerLinks = [
   //     },
   //   ],
   // },
+    {
+    label: "Home",
+    url: "/",
+  },
   {
     label: "Services",
     url: "/#services",
@@ -54,8 +58,15 @@ export const headerLinks = [
     label: "My Work",
     url: "/my-work",
   },
+       {
+    label: "Process",
+    url: "/#our-process",
+  },
+      {
+    label: "About Me",
+    url: "/#TheEditorBehindtheNumbers",
+  },
   
-
   // { label: "About Me", url: "/#about-me" },
   
  

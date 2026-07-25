@@ -6,7 +6,7 @@ export default function RegularProcess({ title, description, cards, image }) {
   const formattedTitle = title?.replaceAll("-", "&#8209;");
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="our-process">
       <div className={styles.container}>
         <div className={`${styles.headingWrapper} ${image ? styles.withImage : ""}`}>
           {image && (

@@ -198,6 +198,16 @@
         }
 
         .navigationMenu {
+          .menuBackdrop {
+            position: fixed;
+            inset: 64px 0 0;
+            display: none;
+            cursor: default;
+            background: rgb(0 0 0 / 68%);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+          }
+
           .menuButton {
             display: flex;
             width: 44px;
@@ -277,19 +287,29 @@
 
           .navList {
             position: absolute;
-            top: 100%;
-            right: 0;
-            left: 0;
+            top: calc(100% + 8px);
+            right: 12px;
+            left: auto;
             display: none;
-            max-height: calc(100vh - 64px);
-            padding: 12px 16px 24px;
+            width: min(460px, calc(100% - 24px));
+            max-height: calc(100vh - 84px);
+            max-height: calc(100dvh - 84px);
+            padding: 14px 18px 24px;
             overflow-y: auto;
             flex-direction: column;
             align-items: stretch;
             gap: 0;
-            background: var(--dark-surface-container-lowest);
-            border-top: 1px solid var(--dark-outline-variant);
-            box-shadow: 0 20px 40px rgb(0 0 0 / 30%);
+            background: linear-gradient(
+              180deg,
+              var(--dark-surface-container) 0%,
+              var(--dark-surface-container-lowest) 100%
+            );
+            border: 1px solid var(--dark-outline-variant);
+            border-top-color: rgb(95 213 0 / 45%);
+            border-radius: 14px;
+            box-shadow:
+              0 28px 72px rgb(0 0 0 / 72%),
+              0 0 0 1px rgb(255 255 255 / 3%) inset;
 
             .navItem {
               border-bottom: 1px solid var(--dark-outline-variant);
@@ -332,6 +352,10 @@
 
           .menuToggle:checked ~ .navList {
             display: flex;
+          }
+
+          .menuToggle:checked ~ .menuBackdrop {
+            display: block;
           }
         }
       }

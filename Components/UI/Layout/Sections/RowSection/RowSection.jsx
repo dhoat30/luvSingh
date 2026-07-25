@@ -20,13 +20,14 @@ export default function RowSection({
   fontColor,
 }) {
   const hasMedia = showBeforeAfterImages || image?.url;
+  const sectionId = title?.replace(/[^a-zA-Z0-9]/g, "");
   const sectionStyle = {
     backgroundColor: backgroundColor || undefined,
     "--row-font-color": fontColor || undefined,
   };
 
   return (
-    <section className={styles.section} style={sectionStyle}>
+    <section id={sectionId} className={styles.section} style={sectionStyle}>
       <div className={styles.container}>
         <div
           className={`${styles.wrapper} ${

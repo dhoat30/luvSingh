@@ -1,26 +1,25 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import Image from "next/image";
-import {
-  services,
-  usefulLinks,
-  commercialLinks,
-  informationLinks,
-} from "./FooterLinks";
-import Copyright from "./Copyright";
-import ContactInfo from "./ContactInfo";
+import Link from "next/link";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { usefulLinks } from "./FooterLinks";
+import { socialLinks } from "@/utils/staticData/socialLinksData";
 import FooterCta from "../CTA/FooterCta";
 import styles from "./Footer.module.scss";
-import SocialWrapper from "./SocialWrapper";
-export default function Footer({
-  footerCtaData,
-  showFooterCta = true,
-  certifications,
-  contactInfo,
-  socialData,
-}) {
-  console.log(certifications);
+
+const socialIcons = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+};
+
+export default function Footer({ footerCtaData, showFooterCta = true }) {
+  const currentYear = new Date().getFullYear();
+  const availableSocialLinks = socialLinks.filter(
+    ({ url }) => typeof url === "string" && url.trim().length > 0,
+  );
+
   return (
     <>
       {showFooterCta && (
@@ -31,106 +30,94 @@ export default function Footer({
         />
       )}
 
-      <div className={`${styles.footerSection}`}>
-        <Container maxWidth="xl" className="row">
-          {/* logo wrapper */}
-          <div className={`${styles.footerWrapper}`}>
-            <div className={`${styles.logoWrapper}`}>
-              {/* <Link href="/" className="mb-16 block mt-8">
+      <footer className={styles.footerSection}>
+        <div className={styles.container}>
+          <div
+            className={`${styles.footerGrid} ${
+              availableSocialLinks.length === 0 ? styles.withoutSocials : ""
+            }`}
+          >
+            <div className={styles.brandColumn}>
+              <Link href="/" className={styles.logoLink} aria-label="Luv Singh home">
                 <Image
-                          src="/logo.png"
-                     width={500 / 7}
-                height={527 / 7}
-                  alt="Logo"
-                  style={{ cursor: "pointer" }}
+                  src="/logo.png"
+                  width={168}
+                  height={77}
+                  alt="Luv Singh"
+                  className={styles.logo}
                 />
-              </Link> */}
+              </Link>
 
-              <Typography
-                variant="h6"
-                component="p"
-                // sx={{ marginTop: "0" }}
-              >
-                Websites and ads designed to convert — not confuse.
-              </Typography>
-              {certifications && (
-                <div className="certification-wrapper">
-                  <Typography
-                    variant="subtitle1"
-                    component="div"
-                    className=" mt-32 uppercase"
-                    sx={{ marginBottom: "8px" }}
-                  >
-                    Certifications
-                  </Typography>
-                  <div
-                    className={`${styles.certificationsLogos} certification-logos grid gap-8 align-center`}
-                  >
-                    {certifications.items.map((item, index) => {
-                      const padding =
-                        (item.image.height / item.image.width) * 100;
-                      return (
-                        <Link href={item.link.url} target="_blank" key={index}>
-                          <div
-                            className="image-wrapper"
-                            style={{ paddingBottom: `${padding}%` }}
-                          >
-                            <Image
-                              src={item.image.url}
-                              alt={item.alt ? item.alt : "certification"}
-                              fill
-                            />
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              <p className={styles.eyebrow}>Video editor · Storyteller</p>
+              <h2 className={styles.statement}>
+                Edits made to earn the next second.
+              </h2>
+              <p className={styles.description}>
+                Performance edits, explainers, promos, and social-first videos
+                built to hold attention and drive action.
+              </p>
             </div>
 
-            <div className={`${styles.linksContainer}`}>
-              <Typography
-                variant="subtitle1"
-                component="div"
-                sx={{ marginBottom: "8px" }}
-              >
-                USEFUL LINKS
-              </Typography>
-              <ul
-                className={`${styles.menuList}`}
-                sx={{ margin: 0, padding: 0 }}
-              >
-                {usefulLinks.map((link, index) => {
-                  return (
-                    <li key={index}>
-                      <Link
-                        href={link.url}
-                        className={`${styles.link} dark-body2 body2 `}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  );
-                })}
+            <nav className={styles.linksColumn} aria-label="Footer navigation">
+              <p className={styles.columnTitle}>Useful links</p>
+              <ul className={styles.menuList}>
+                {usefulLinks.map((link) => (
+                  <li key={`${link.label}-${link.url}`}>
+                    <Link href={link.url} className={styles.navLink}>
+                      <span>{link.label}</span>
+                      <span className={styles.linkArrow} aria-hidden="true">
+                        ↗
+                      </span>
+                    </Link>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </nav>
 
-            <div className={`${styles.contactWrapper}`}>
-              {contactInfo && contactInfo.info && (
-                <div className="contact-section">
-                  <ContactInfo contactInfo={contactInfo} />
-                </div>
-              )}
-              {socialData && socialData.length > 0 && (
-                <SocialWrapper socialData={socialData} className="mt-24" />
-              )}
-            </div>
+            {availableSocialLinks.length > 0 && (
+              <div className={styles.socialColumn}>
+                <p className={styles.columnTitle}>Follow the work</p>
+                <p className={styles.socialIntro}>
+                  Fresh edits, breakdowns, and behind-the-scenes work.
+                </p>
+
+                <ul className={styles.socialList}>
+                  {availableSocialLinks.map((social) => {
+                    const SocialIcon = socialIcons[social.platform];
+
+                    return (
+                      <li key={social.platform}>
+                        <Link
+                          href={social.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${social.label} (opens in a new tab)`}
+                          className={styles.socialLink}
+                        >
+                          <span className={styles.socialIcon}>
+                            {SocialIcon && <SocialIcon aria-hidden="true" />}
+                          </span>
+                          <span>{social.label}</span>
+                          <span className={styles.socialArrow} aria-hidden="true">
+                            ↗
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
           </div>
-        </Container>
-      </div>
-      {/* copyright container */}
-      <Copyright />
+
+          <div className={styles.footerBottom}>
+            <p>© {currentYear} Luv Singh. All rights reserved.</p>
+            <Link href="#" className={styles.backToTop}>
+              Back to top <span aria-hidden="true">↑</span>
+            </Link>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

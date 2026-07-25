@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { headerLinks } from "@/utils/headerLinks";
@@ -5,11 +8,11 @@ import HeaderArrowIcon from "../Icons/HeaderArrowIcon";
 import MenuIcon from "../Icons/MenuIcon";
 import styles from "./Header.module.scss";
 
-function NavigationItem({ item }) {
+function NavigationItem({ item, onNavigate }) {
   if (!item.subLinks?.length) {
     return (
       <li className={styles.navItem}>
-        <Link href={item.url} className={styles.navLink}>
+        <Link href={item.url} className={styles.navLink} onClick={onNavigate}>
           {item.label}
         </Link>
       </li>
@@ -32,7 +35,11 @@ function NavigationItem({ item }) {
         >
           {item.subLinks.map((subLink) => (
             <li key={subLink.url}>
-              <Link href={subLink.url} className={styles.submenuLink}>
+              <Link
+                href={subLink.url}
+                className={styles.submenuLink}
+                onClick={onNavigate}
+              >
                 {subLink.graphic && (
                   <Image
                     className={styles.submenuGraphic}
@@ -60,11 +67,24 @@ function NavigationItem({ item }) {
 }
 
 export default function Header() {
+  const menuToggleRef = useRef(null);
+
+  const closeMenu = () => {
+    if (menuToggleRef.current) {
+      menuToggleRef.current.checked = false;
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <nav className={styles.nav} aria-label="Primary navigation">
-          <Link href="/" className={styles.logoLink} aria-label="Luv Singh home">
+          <Link
+            href="/"
+            className={styles.logoLink}
+            aria-label="Luv Singh home"
+            onClick={closeMenu}
+          >
             <Image
               src="/logo.png"
               width={168}
@@ -77,6 +97,7 @@ export default function Header() {
 
           <div className={styles.navigationMenu}>
             <input
+              ref={menuToggleRef}
               type="checkbox"
               id="navigation-toggle"
               className={styles.menuToggle}
@@ -93,12 +114,26 @@ export default function Header() {
               <span className={styles.closeIcon} aria-hidden="true" />
             </label>
 
+            <label
+              htmlFor="navigation-toggle"
+              className={styles.menuBackdrop}
+              aria-hidden="true"
+            />
+
             <ul className={styles.navList}>
               {headerLinks.map((item) => (
-                <NavigationItem item={item} key={item.url || item.label} />
+                <NavigationItem
+                  item={item}
+                  onNavigate={closeMenu}
+                  key={item.url || item.label}
+                />
               ))}
               <li className={styles.ctaItem}>
-                <Link href="/get-a-sample-cut" className={styles.cta}>
+                <Link
+                  href="/get-a-sample-cut"
+                  className={styles.cta}
+                  onClick={closeMenu}
+                >
                   Get Your Sample Cut
                 </Link>
               </li>

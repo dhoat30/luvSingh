@@ -1,48 +1,75 @@
-import Container from "@mui/material/Container";
-import Image from "next/image";
-import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import Button from "@mui/material/Button";
 import styles from "./ThankYou.module.scss";
+
 export default function ThankYou({
-  title = "Thanks for your enquiry.",
-  description = "We have received your information and we will get back you soon.",
+  title = "Your request is in.",
+  description =
+    "Thanks for reaching out. Your details have been received and I will get back to you as soon as possible.",
 }) {
   return (
-    <section className={`${styles.section} flex align-center justify-center`}>
-      <Container maxWidth="sm" className={`${styles.container} border-radius-12`}>
-        <div className={`${styles.imageContainer}`}>
-          <div className="image-wrapper" style={{paddingBottom: "86%"}}>
-            <Image src="/congrats.png" alt="Thank you" fill />
+    <section className={styles.section}>
+      <div className={styles.glow} aria-hidden="true" />
+
+      <div className={styles.container}>
+        <div className={styles.heroGrid}>
+          <div className={styles.statusVisual} aria-hidden="true">
+            <div className={styles.orbit}>
+              <span className={styles.orbitDot} />
+              <div className={styles.confirmationMark}>
+                <span />
+              </div>
+            </div>
+            <p>Submission complete</p>
+          </div>
+
+          <div className={styles.content}>
+            <p className={styles.eyebrow}>Message received</p>
+            <h1>{title}</h1>
+            <p className={styles.description}>{description}</p>
+
+            <div className={styles.actions}>
+              <Link href="/" className={styles.primaryAction}>
+                Back to home
+                <span aria-hidden="true">↗</span>
+              </Link>
+              <Link href="/my-work" className={styles.secondaryAction}>
+                View my work
+              </Link>
+            </div>
           </div>
         </div>
-        <div className="content-wrapper mt-16">
-          <Typography
-            variant="h4"
-            component="h1"
-            align="center"
-            color="var(--light-on-surface)"
-          >
-            {title}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            component="p"
-            align="center"
-            color="var(--light-on-surface-variant)"
-          >
-            {description}
-          </Typography>
-          <div className="button-wrapper mt-16 flex justify-center align-center gap-16 flex-wrap">
-            <Link href="/">
-              <Button variant="contained" color="secondary" size="large">
-                Go back
-              </Button>
-            </Link>
-        
+
+        <div className={styles.nextSteps}>
+          <div className={styles.stepIntro}>
+            <p className={styles.eyebrow}>What happens now</p>
+            <h2>A simple next step.</h2>
           </div>
+
+          <ol className={styles.stepList}>
+            <li>
+              <span>01</span>
+              <div>
+                <h3>Received</h3>
+                <p>Your details have landed safely.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3>Review</h3>
+                <p>I will look through everything you shared.</p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h3>Reply</h3>
+                <p>Keep an eye on your inbox for the next step.</p>
+              </div>
+            </li>
+          </ol>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
